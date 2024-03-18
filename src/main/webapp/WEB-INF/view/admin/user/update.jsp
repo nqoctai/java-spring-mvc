@@ -28,13 +28,13 @@
                             <h3>Update a user</h3>
                             <hr />
                             <form:form method="post" action="/admin/user/update" modelAttribute="newUser">
-                                <div class="mb-3">
+                                <div class="mb-3" style="display: none;">
                                     <label class="form-label">Id:</label>
                                     <form:input type="text" class="form-control" path="id" />
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Email:</label>
-                                    <form:input type="email" class="form-control" path="email" />
+                                    <form:input type="email" class="form-control" path="email" disabled="true" />
                                 </div>
 
                                 <div class="mb-3">
@@ -50,7 +50,7 @@
                                     <form:input type="text" class="form-control" path="address" />
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Create</button>
+                                <button type="submit" class="btn btn-warning">Submit</button>
                             </form:form>
                         </div>
 
