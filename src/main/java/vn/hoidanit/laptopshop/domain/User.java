@@ -33,7 +33,7 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "user")
-    private List<Oder> oders;
+    List<Order> orders;
 
     public void setId(long id) {
         this.id = id;
