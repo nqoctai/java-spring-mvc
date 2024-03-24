@@ -10,7 +10,7 @@ import vn.hoidanit.laptopshop.domain.Product;
 public class ProductController {
 
     @GetMapping("/admin/product")
-    public String getDashboard() {
+    public String getProduct() {
         return "admin/product/show";
     }
 
