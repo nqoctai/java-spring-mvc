@@ -16,9 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
 import vn.hoidanit.laptopshop.domain.Product;
+
 import vn.hoidanit.laptopshop.service.ProductService;
 import vn.hoidanit.laptopshop.service.UploadService;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 public class ProductController {
@@ -28,6 +29,7 @@ public class ProductController {
     public ProductController(ProductService productService, UploadService uploadService) {
         this.productService = productService;
         this.uploadService = uploadService;
+       
     }
 
     @GetMapping("/admin/product")
