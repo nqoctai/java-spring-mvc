@@ -45,7 +45,7 @@ public class ProductController {
     }
 
     @PostMapping("/admin/product/create")
-    public String postMethodName(Model model,
+    public String postCreateProductPage(Model model,
             @Valid @ModelAttribute("newProduct") Product pr,
             BindingResult newProductBindingResult,
             @RequestParam("hoidanitFile") MultipartFile file) {
