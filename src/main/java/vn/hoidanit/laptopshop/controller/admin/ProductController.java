@@ -20,7 +20,6 @@ import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.service.ProductService;
 import vn.hoidanit.laptopshop.service.UploadService;
 
-
 @Controller
 public class ProductController {
     private final ProductService productService;
@@ -29,7 +28,7 @@ public class ProductController {
     public ProductController(ProductService productService, UploadService uploadService) {
         this.productService = productService;
         this.uploadService = uploadService;
-       
+
     }
 
     @GetMapping("/admin/product")
@@ -42,7 +41,7 @@ public class ProductController {
     @GetMapping("/admin/product/create")
     public String getCreateProductPage(Model model) {
         model.addAttribute("newProduct", new Product());
-        return "/admin/product/create";
+        return "admin/product/create";
     }
 
     @PostMapping("/admin/product/create")
