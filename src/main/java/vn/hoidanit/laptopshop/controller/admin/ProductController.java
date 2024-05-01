@@ -122,7 +122,7 @@ public class ProductController {
     @PostMapping(value = "/admin/product/delete")
     public String postDeleteProductPage(Model model, @ModelAttribute("newProduct") Product pr) {
         System.out.println(">>>>" + pr.getId());
-        this.productService.deleteProductById(pr.getId());
+        this.productService.deleteProduct(pr.getId());
         return "redirect:/admin/product";
     }
 
