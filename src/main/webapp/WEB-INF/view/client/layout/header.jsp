@@ -33,6 +33,7 @@
                                         aria-expanded="false">
                                         <i class="fas fa-user fa-2x"></i>
                                     </a>
+
                                     <ul class="dropdown-menu dropdown-menu-end p-4" aria-labelledby="dropdownMenuLink">
                                         <li class="d-flex align-items-center flex-column" style="min-width: 300px;">
                                             <img style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden;"
@@ -41,8 +42,10 @@
                                                 <c:out value="${sessionScope.fullName}" />
                                             </div>
                                         </li>
+
                                         <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
-                                        <li><a class="dropdown-item" href="#">Lịch sử mua hàng</a></li>
+
+                                        <li><a class="dropdown-item" href="/order-history">Lịch sử mua hàng</a></li>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
@@ -52,7 +55,6 @@
                                                     value="${_csrf.token}" />
                                                 <button class="dropdown-item">Đăng xuất</button>
                                             </form>
-
                                         </li>
                                     </ul>
                                 </div>

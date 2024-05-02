@@ -31,7 +31,9 @@ public class ProductService {
             ProductRepository productRepository,
             CartRepository cartRepository,
             CartDetailRepository cartDetailRepository,
-            UserService userService, OrderRepository orderRepository, OrderDetailRepository orderDetailRepository) {
+            UserService userService,
+            OrderRepository orderRepository,
+            OrderDetailRepository orderDetailRepository) {
         this.productRepository = productRepository;
         this.cartRepository = cartRepository;
         this.cartDetailRepository = cartDetailRepository;
@@ -56,7 +58,7 @@ public class ProductService {
         this.productRepository.deleteById(id);
     }
 
-    public void handleAddProductToCart(String email, long productId, HttpSession session) {
+    public void handleAddProductToCart(String email, long productId, HttpSession session, long quantity) {
 
         User user = this.userService.getUserByEmail(email);
         if (user != null) {
@@ -87,7 +89,7 @@ public class ProductService {
                     cd.setCart(cart);
                     cd.setProduct(realProduct);
                     cd.setPrice(realProduct.getPrice());
-                    cd.setQuantity(1);
+                    cd.setQuantity(quantity);
                     this.cartDetailRepository.save(cd);
 
                     // update cart (sum);
@@ -96,7 +98,7 @@ public class ProductService {
                     this.cartRepository.save(cart);
                     session.setAttribute("sum", s);
                 } else {
-                    oldDetail.setQuantity(oldDetail.getQuantity() + 1);
+                    oldDetail.setQuantity(oldDetail.getQuantity() + quantity);
                     this.cartDetailRepository.save(oldDetail);
                 }
 
@@ -144,48 +146,52 @@ public class ProductService {
         }
     }
 
-    public void handlePlaceOrder(User user, HttpSession session, String receiverName, String receiverAddress,
-            String receiverPhone) {
-
-        // create OrderDetail
+    public void handlePlaceOrder(
+            User user, HttpSession session,
+            String receiverName, String receiverAddress, String receiverPhone) {
 
         // step 1: get cart by user
         Cart cart = this.cartRepository.findByUser(user);
         if (cart != null) {
             List<CartDetail> cartDetails = cart.getCartDetails();
+
             if (cartDetails != null) {
-                // create Order
+
+                // create order
                 Order order = new Order();
                 order.setUser(user);
                 order.setReceiverName(receiverName);
                 order.setReceiverAddress(receiverAddress);
                 order.setReceiverPhone(receiverPhone);
                 order.setStatus("PENDING");
+
                 double sum = 0;
                 for (CartDetail cd : cartDetails) {
-                    sum += cd.getPrice() * cd.getQuantity();
+                    sum += cd.getPrice();
                 }
                 order.setTotalPrice(sum);
                 order = this.orderRepository.save(order);
 
+                // create orderDetail
+
                 for (CartDetail cd : cartDetails) {
-                    // create OrderDetail
                     OrderDetail orderDetail = new OrderDetail();
                     orderDetail.setOrder(order);
                     orderDetail.setProduct(cd.getProduct());
                     orderDetail.setPrice(cd.getPrice());
                     orderDetail.setQuantity(cd.getQuantity());
-                    this.orderDetailRepository.save(orderDetail);
 
+                    this.orderDetailRepository.save(orderDetail);
                 }
 
-                // step 2: delete cartDetail and cart
+                // step 2: delete cart_detail and cart
                 for (CartDetail cd : cartDetails) {
                     this.cartDetailRepository.deleteById(cd.getId());
                 }
+
                 this.cartRepository.deleteById(cart.getId());
 
-                // step 3: update session
+                // step 3 : update session
                 session.setAttribute("sum", 0);
             }
         }
