@@ -2,6 +2,8 @@ package vn.hoidanit.laptopshop.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import vn.hoidanit.laptopshop.domain.Role;
@@ -19,24 +21,22 @@ public class UserService {
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository,
-            ProductRepository productRepository, OrderRepository orderRepository) {
+    public UserService(UserRepository userRepository,
+            RoleRepository roleRepository,
+            ProductRepository productRepository,
+            OrderRepository orderRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
     }
 
-    public List<User> getAllUsers() {
-        return this.userRepository.findAll();
+    public Page<User> getAllUsers(Pageable page) {
+        return this.userRepository.findAll(page);
     }
 
     public List<User> getAllUsersByEmail(String email) {
         return this.userRepository.findOneByEmail(email);
-    }
-
-    public User getUserById(long id) {
-        return this.userRepository.findById(id);
     }
 
     public User handleSaveUser(User user) {
@@ -45,9 +45,12 @@ public class UserService {
         return eric;
     }
 
+    public User getUserById(long id) {
+        return this.userRepository.findById(id);
+    }
+
     public void deleteAUser(long id) {
         this.userRepository.deleteById(id);
-        ;
     }
 
     public Role getRoleByName(String name) {
@@ -81,5 +84,4 @@ public class UserService {
     public long countOrders() {
         return this.orderRepository.count();
     }
-
 }
